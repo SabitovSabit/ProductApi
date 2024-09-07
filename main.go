@@ -2,21 +2,13 @@ package main
 
 import (
 	"fmt"
-	"productapi/databaselayer"
-	"productapi/services"
+	"productapi/dataaccesslayer"
 )
 
 func main() {
+
+	dataaccesslayer.StartHttpServer()
+
 	fmt.Println("Hello!")
-
-	var sqlDb = databaselayer.GetConnection()
-
-	var iproductService services.IProductService = &services.ProductService{SqlDb: sqlDb}
-
-	var products = iproductService.GetAllProducts()
-
-	for _, pro := range products {
-		fmt.Println(pro.Name)
-	}
 
 }

@@ -25,6 +25,5 @@ func GetConnection() *sql.DB {
 		log.Error("Unable to connect sql server %v\n", err)
 	}
 
-
 	return db
 }

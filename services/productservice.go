@@ -1,40 +1,20 @@
 package services
 
 import (
-	"context"
-	"database/sql"
-	"productapi/models"
+	"net/http"
 
-	"github.com/labstack/gommon/log"
+	"github.com/labstack/echo/v4"
+
+	"productapi/databaselayer"
 )
 
-type IProductService interface {
-	GetAllProducts() []models.Product
-}
+func GetAllProducts(client echo.Context) error {
 
-type ProductService struct {
-	SqlDb *sql.DB
-}
+	var sqlDb = databaselayer.GetConnection()
 
-func (productService *ProductService) GetAllProducts() []models.Product {
-	rows, err := productService.SqlDb.QueryContext(context.TODO(), "select Id,Name,Price,Count from Product")
+	var iproductService databaselayer.IProductService = &databaselayer.ProductService{SqlDb: sqlDb}
 
-	if err != nil {
-		log.Error("unable select all products %v\n", err)
-	}
+	var products = iproductService.GetAllProducts()
 
-	defer rows.Close()
-	defer productService.SqlDb.Close()
-
-	var allProducts []models.Product
-
-	for rows.Next() {
-		var produtc models.Product
-
-		rows.Scan(&produtc.Id, &produtc.Name, &produtc.Price, &produtc.Count)
-
-		allProducts = append(allProducts, produtc)
-	}
-
-	return allProducts
+	return client.JSON(http.StatusOK, products)
 }
