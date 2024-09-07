@@ -1,5 +1,12 @@
 package main
 
+import (
+	"fmt"
+	"productapi/databaselayer"
+)
+
 func main() {
-	println("Hello!")
+	fmt.Println("Hello!")
+
+	databaselayer.GetConnection()
 }
