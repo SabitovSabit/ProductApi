@@ -9,6 +9,6 @@ func main() {
 
 	dataaccesslayer.StartHttpServer()
 
-	fmt.Println("Hello!")
+	fmt.Println("End!")
 
 }

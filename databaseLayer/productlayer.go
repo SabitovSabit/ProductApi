@@ -10,6 +10,8 @@ import (
 
 type IProductService interface {
 	GetAllProducts() []models.Product
+
+	AddProduct(product models.Product) models.Product
 }
 
 type ProductService struct {
@@ -37,4 +39,20 @@ func (productService *ProductService) GetAllProducts() []models.Product {
 	}
 
 	return allProducts
+}
+
+func (productService *ProductService) AddProduct(product models.Product) models.Product {
+
+	command := "insert into Product (name,price,count) values (@p1,@p2,@p3);SELECT SCOPE_IDENTITY();"
+
+	var newId int
+	err := productService.SqlDb.QueryRow(command, product.Name, product.Price, product.Count).Scan(&newId)
+
+	if err != nil {
+		log.Error("unable inser one product %v\n", err)
+	}
+
+	product.Id = newId
+
+	return product
 }
