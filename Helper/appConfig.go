@@ -5,18 +5,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+
+	"productapi/models"
 )
 
-type AppConfig struct {
-	Database struct {
-		Server   string
-		Port     int
-		Database string
-	}
-}
-
-func LoadConfigs() AppConfig {
-	var config AppConfig
+func LoadConfigs() models.AppConfig {
+	var config models.AppConfig
 
 	file, err := os.Open("appsettings.json")
 
