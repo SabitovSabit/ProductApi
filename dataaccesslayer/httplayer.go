@@ -13,5 +13,9 @@ func StartHttpServer() {
 
 	server.POST("/addproduct", services.AddProduct)
 
+	server.DELETE("/deleteproduct", services.DeleteProduct)
+
+	server.PUT("/updateproduct", services.UpdateProduct)
+
 	server.Logger.Fatal(server.Start(":1234"))
 }
